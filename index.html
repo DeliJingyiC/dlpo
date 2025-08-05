@@ -202,16 +202,197 @@
           </div>
         </div>
 
-        <div class="content">
-          <h3 class="title is-4">📊 DLPO Objective Function</h3>
-          <div class="box">
-            <p>Our proposed objective combines reward optimization with diffusion loss regularization:</p>
-            <div style="text-align: center; font-family: 'Courier New', monospace; background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0;">
-              E<sub>c∼p(c)</sub>E<sub>p<sub>θ</sub>(x<sub>0:T</sub>|c)</sub>[−αr(x<sub>0</sub>, c) − β‖ε̃(x<sub>t</sub>, t) − ε<sub>θ</sub>(x<sub>t</sub>, c, t)‖²]
-            </div>
-            <p>where α and β represent the reward weight and diffusion model loss weight, respectively.</p>
-          </div>
-        </div>
+        <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="modelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C44569;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="rewardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A8E6CF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7FCDCD;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="lossGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD93D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C42;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="dlpoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6C5CE7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A29BFE;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+    
+    <!-- Drop shadow filter -->
+    <filter id="dropshadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-color="#00000030"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">
+    DLPO: Diffusion Loss-Guided Policy Optimization
+  </text>
+  
+  <!-- Input Text -->
+  <rect x="50" y="100" width="120" height="60" rx="15" fill="#FFE0E6" stroke="#FF8A9B" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="110" y="125" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" font-weight="bold" fill="#D63384">Input Text</text>
+  <text x="110" y="140" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="#D63384">"Hello world"</text>
+  
+  <!-- WaveGrad 2 Model -->
+  <rect x="250" y="80" width="150" height="100" rx="20" fill="url(#modelGrad)" stroke="#C44569" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="325" y="105" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="white">WaveGrad 2</text>
+  <text x="325" y="120" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" fill="white">TTS Model</text>
+  <text x="325" y="135" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Diffusion Process</text>
+  <text x="325" y="150" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">x_T → x_0</text>
+  
+  <!-- Generated Audio -->
+  <rect x="480" y="100" width="120" height="60" rx="15" fill="#E8F5FF" stroke="#74B9FF" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="540" y="125" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" font-weight="bold" fill="#0984E3">Generated</text>
+  <text x="540" y="140" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" font-weight="bold" fill="#0984E3">Audio 🎵</text>
+  
+  <!-- UTMOS Reward Model -->
+  <rect x="480" y="220" width="120" height="80" rx="15" fill="url(#rewardGrad)" stroke="#00B894" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="540" y="245" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="white">UTMOS ⭐</text>
+  <text x="540" y="260" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" fill="white">Reward Model</text>
+  <text x="540" y="275" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Naturalness</text>
+  <text x="540" y="290" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Score: r(x₀, c)</text>
+  
+  <!-- Original Diffusion Loss -->
+  <rect x="250" y="220" width="150" height="80" rx="15" fill="url(#lossGrad)" stroke="#E17055" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="325" y="245" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="white">Diffusion Loss 🔧</text>
+  <text x="325" y="260" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="10" fill="white">||ε̃(x_t,t) - ε_θ(x_t,c,t)||²</text>
+  <text x="325" y="275" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Preserves Model</text>
+  <text x="325" y="290" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Capabilities</text>
+  
+  <!-- DLPO Combined Objective -->
+  <rect x="700" y="350" width="200" height="120" rx="20" fill="url(#dlpoGrad)" stroke="#6C5CE7" stroke-width="4" filter="url(#dropshadow)"/>
+  <text x="800" y="380" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">DLPO Objective 🚀</text>
+  <text x="800" y="400" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="white">-α·r(x₀,c) - β·||ε̃-ε_θ||²</text>
+  <text x="800" y="420" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">✨ Reward Optimization</text>
+  <text x="800" y="435" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">🛡️ Capability Preservation</text>
+  <text x="800" y="450" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">🎯 Prevents Overfitting</text>
+  
+  <!-- Policy Update -->
+  <rect x="700" y="520" width="200" height="80" rx="15" fill="#00CEC9" stroke="#00B894" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="800" y="545" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="white">Policy Update 📈</text>
+  <text x="800" y="565" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="13" fill="white">θ ← θ + ∇_θ J_DLPO(θ)</text>
+  <text x="800" y="580" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="white">Improved Speech Quality!</text>
+  
+  <!-- Feedback Loop -->
+  <path d="M 800 520 Q 1000 450 1000 300 Q 1000 150 400 100 Q 350 90 325 90" 
+        stroke="#6f42c1" stroke-width="3" fill="none" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  <text x="950" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6f42c1" font-weight="bold">
+    Iterative Refinement
+  </text>
+  
+  <!-- Arrows -->
+  <!-- Input to Model -->
+  <line x1="170" y1="130" x2="240" y2="130" stroke="#FF6B9D" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Model to Audio -->
+  <line x1="400" y1="130" x2="470" y2="130" stroke="#74B9FF" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Audio to UTMOS -->
+  <line x1="540" y1="160" x2="540" y2="210" stroke="#00CEC9" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Model to Diffusion Loss -->
+  <line x1="325" y1="180" x2="325" y2="210" stroke="#FFD93D" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- UTMOS to DLPO -->
+  <line x1="600" y1="260" x2="680" y2="380" stroke="#A8E6CF" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- Diffusion Loss to DLPO -->
+  <line x1="400" y1="260" x2="680" y2="380" stroke="#FF8C42" stroke-width="4" marker-end="url(#arrowhead)"/>
+  
+  <!-- DLPO to Policy Update -->
+  <line x1="800" y1="470" x2="800" y2="510" stroke="#6C5CE7" stroke-width="4" marker-end="url(#arrowhead)"/>url(#arrowhead)"/>
+  
+  <!-- UTMOS to DLPO -->
+  <line x1="600" y1="260" x2="680" y2="380" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Diffusion Loss to DLPO -->
+  <line x1="400" y1="260" x2="680" y2="380" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- DLPO to Policy Update -->
+  <line x1="800" y1="470" x2="800" y2="510" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Key Innovation Box -->
+  <rect x="50" y="350" width="280" height="120" rx="15" fill="#FFF9E6" stroke="#FFB347" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="190" y="375" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="#E67E22">
+    🔑 Key Innovation
+  </text>
+  <text x="190" y="395" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#E67E22">
+    Integrating original diffusion loss
+  </text>
+  <text x="190" y="410" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#E67E22">
+    into reward function prevents
+  </text>
+  <text x="190" y="425" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#E67E22">
+    capability degradation while
+  </text>
+  <text x="190" y="440" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#E67E22">
+    optimizing for human preferences! 🎉
+  </text>
+  
+  <!-- Benefits Box -->
+  <rect x="50" y="500" width="280" height="120" rx="15" fill="#E8F8FF" stroke="#74B9FF" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="190" y="525" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="#0984E3">
+    📈 DLPO Benefits
+  </text>
+  <text x="190" y="545" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#0984E3">
+    🎯 UTMOS: 2.90 → 3.65 (+26%)
+  </text>
+  <text x="190" y="560" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#0984E3">
+    🎵 NISQA: 3.74 → 4.02 (+7.5%)
+  </text>
+  <text x="190" y="575" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#0984E3">
+    📝 WER: 1.5% → 1.2% (-20%)
+  </text>
+  <text x="190" y="590" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="12" fill="#0984E3">
+    👥 67% human preference! 🎊
+  </text>
+  
+  <!-- Mathematical Formula -->
+  <rect x="50" y="650" width="800" height="80" rx="15" fill="#FFEAA7" stroke="#FDCB6E" stroke-width="3" filter="url(#dropshadow)"/>
+  <text x="450" y="675" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="15" font-weight="bold" fill="#E17055">
+    🧮 DLPO Objective Function:
+  </text>
+  <text x="450" y="700" text-anchor="middle" font-family="Courier New, monospace" font-size="17" fill="#E17055" font-weight="bold">
+    𝔼[−α·r(x₀,c) − β·‖ε̃(xₜ,t) − εθ(xₜ,c,t)‖²]
+  </text>
+  <text x="200" y="715" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="#D63031">
+    α: reward weight ⚖️
+  </text>
+  <text x="450" y="715" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="#D63031">
+    β: diffusion loss weight 🔧
+  </text>
+  <text x="700" y="715" text-anchor="middle" font-family="Comic Sans MS, Arial, sans-serif" font-size="11" fill="#D63031">
+    r(x₀,c): UTMOS score ⭐
+  </text>
+  
+  <!-- Process Flow Labels -->
+  <text x="200" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666" font-style="italic">
+    1. Text Input
+  </text>
+  <text x="430" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666" font-style="italic">
+    2. Audio Generation
+  </text>
+  <text x="540" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666" font-style="italic">
+    3. Quality Assessment
+  </text>
+  <text x="800" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666" font-style="italic">
+    4. Combined Optimization
+  </text>
+</svg>
       </div>
     </div>
   </div>
