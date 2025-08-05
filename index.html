@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="DLPO: Fine-Tuning Text-to-Speech Diffusion Models Using Reinforcement Learning with Human Feedback">
+  <meta name="keywords" content="DLPO, TTS, Diffusion Models, Reinforcement Learning, Human Feedback">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DLPO: Fine-Tuning Text-to-Speech Diffusion Models Using Reinforcement Learning with Human Feedback</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <style>
+    .publication-title {
+      font-family: 'Google Sans', sans-serif;
+    }
+    
+    .author-block {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    
+    .publication-authors {
+      margin-top: 20px;
+    }
+    
+    .publication-links {
+      margin-top: 30px;
+    }
+    
+    .dlpo {
+      color: #ff6b6b;
+      font-weight: bold;
+    }
+    
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .method-comparison {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .results-table {
+      margin: 20px 0;
+    }
+    
+    .demo-section {
+      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      padding: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Fine-Tuning Text-to-Speech Diffusion Models Using Reinforcement Learning with Human Feedback</h1>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="#" style="color: white;">Jingyi Chen</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="#" style="color: white;">Ju Seung Byun</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="#" style="color: white;">Micha Elsner</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#" style="color: white;">Pichao Wang</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="#" style="color: white;">Andrew Perrault</a><sup>2</sup></span>
+          </div>
+
+          <div class="is-size-6 publication-authors" style="margin-top: 15px;">
+            <span class="author-block"><sup>1</sup>Department of Linguistics, The Ohio State University</span><br>
+            <span class="author-block"><sup>2</sup>Department of Computer Science and Engineering, The Ohio State University</span><br>
+            <span class="author-block"><sup>3</sup>Amazon</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- Paper Link -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-light">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              
+              <!-- Code Link -->
+              <span class="link-block">
+                <a href="https://anonymous.4open.science/r/DLPO-6556/"
+                   class="external-link button is-normal is-rounded is-light">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+              
+              <!-- Demo Link -->
+              <span class="link-block">
+                <a href="https://demopagea.github.io/DLPO-demo/"
+                   class="external-link button is-normal is-rounded is-light">
+                  <span class="icon">
+                      <i class="fas fa-volume-up"></i>
+                  </span>
+                  <span>Demo</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-section">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+      <h2 class="title is-3">🎵 Audio Demos</h2>
+      <p class="subtitle">
+        <span class="dlpo">DLPO</span> significantly improves speech quality and naturalness in TTS diffusion models.
+        Listen to the difference!
+      </p>
+      <div class="buttons is-centered">
+        <a href="https://demopagea.github.io/DLPO-demo/" class="button is-primary is-large">
+          <span class="icon">
+            <i class="fas fa-play"></i>
+          </span>
+          <span>Listen to Audio Samples</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Diffusion models produce high-fidelity speech but are inefficient for real-time use due to long denoising steps and challenges in modeling intonation and rhythm. To improve this, we propose <strong>Diffusion Loss-Guided Policy Optimization (DLPO)</strong>, an RLHF framework for TTS diffusion models.
+          </p>
+          <p>
+            DLPO integrates the original training loss into the reward function, preserving generative capabilities while reducing inefficiencies. Using naturalness scores as feedback, DLPO aligns reward optimization with the diffusion model's structure, improving speech quality.
+          </p>
+          <p>
+            We evaluate DLPO on WaveGrad 2, a non-autoregressive diffusion-based TTS model. Results show significant improvements in objective metrics (UTMOS 3.65, NISQA 4.02) and subjective evaluations, with <span class="dlpo">DLPO</span> audio preferred <strong>67% of the time</strong>. These findings demonstrate DLPO's potential for efficient, high-quality diffusion TTS in real-time, resource-limited settings.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method Overview</h2>
+        
+        <div class="method-comparison">
+          <h3 class="title is-4">🔧 Diffusion Loss-Guided Policy Optimization (DLPO)</h3>
+          <div class="content">
+            <p>
+              Unlike existing RLHF methods that rely solely on external rewards or KL regularization, DLPO introduces a unique approach by directly integrating the diffusion model's original training loss into the reward function. This innovation serves two critical purposes:
+            </p>
+            <div class="columns">
+              <div class="column">
+                <div class="box">
+                  <h4 class="title is-5">🎯 Preserve Model Capabilities</h4>
+                  <p>By aligning the reward function with the original diffusion training objective, DLPO ensures the model maintains its ability to generate high-quality speech while adapting to human feedback.</p>
+                </div>
+              </div>
+              <div class="column">
+                <div class="box">
+                  <h4 class="title is-5">🛡️ Prevent Overfitting</h4>
+                  <p>The original diffusion loss acts as a stabilizing regularizer, balancing external reward optimization with preservation of the model's probabilistic structure.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content">
+          <h3 class="title is-4">📊 DLPO Objective Function</h3>
+          <div class="box">
+            <p>Our proposed objective combines reward optimization with diffusion loss regularization:</p>
+            <div style="text-align: center; font-family: 'Courier New', monospace; background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 10px 0;">
+              E<sub>c∼p(c)</sub>E<sub>p<sub>θ</sub>(x<sub>0:T</sub>|c)</sub>[−αr(x<sub>0</sub>, c) − β‖ε̃(x<sub>t</sub>, t) − ε<sub>θ</sub>(x<sub>t</sub>, c, t)‖²]
+            </div>
+            <p>where α and β represent the reward weight and diffusion model loss weight, respectively.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+    
+    <div class="results-table">
+      <h3 class="title is-4">📈 Comparison of RL Fine-tuning Methods</h3>
+      <div class="table-container">
+        <table class="table is-striped is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>UTMOS ↑</th>
+              <th>NISQA ↑</th>
+              <th>WER ↓</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #e8f5e8;">
+              <td><strong>Ground Truth</strong></td>
+              <td>4.20</td>
+              <td>4.37</td>
+              <td>0.99%</td>
+            </tr>
+            <tr>
+              <td>WaveGrad 2R (Baseline)</td>
+              <td>2.90</td>
+              <td>3.74</td>
+              <td>1.5%</td>
+            </tr>
+            <tr>
+              <td>RWR</td>
+              <td>2.18</td>
+              <td>3.00</td>
+              <td>8.9%</td>
+            </tr>
+            <tr>
+              <td>DDPO</td>
+              <td>2.69</td>
+              <td>2.96</td>
+              <td>2.1%</td>
+            </tr>
+            <tr>
+              <td>DPOK</td>
+              <td>3.18</td>
+              <td>3.76</td>
+              <td>1.1%</td>
+            </tr>
+            <tr>
+              <td>KLinR</td>
+              <td>3.02</td>
+              <td>3.73</td>
+              <td>1.3%</td>
+            </tr>
+            <tr style="background-color: #fff3cd; font-weight: bold;">
+              <td><strong>DLPO (Ours)</strong></td>
+              <td><strong>3.65</strong></td>
+              <td><strong>4.02</strong></td>
+              <td><strong>1.2%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <div class="box">
+          <h3 class="title is-4">🎧 Human Evaluation Results</h3>
+          <div class="content">
+            <ul>
+              <li><strong>67%</strong> of listeners preferred DLPO-generated audio</li>
+              <li><strong>14%</strong> preferred baseline WaveGrad 2R</li>
+              <li><strong>19%</strong> rated as about the same</li>
+              <li>Statistical significance: <em>p</em> &lt; 10<sup>-16</sup> (binomial test)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="column">
+        <div class="box">
+          <h3 class="title is-4">⚡ Key Improvements</h3>
+          <div class="content">
+            <ul>
+              <li><strong>+26%</strong> improvement in UTMOS score</li>
+              <li><strong>+7.5%</strong> improvement in NISQA score</li>
+              <li><strong>20%</strong> reduction in word error rate</li>
+              <li>Maintains computational efficiency</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Work & Discussion</h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            This work addresses the unique challenges of fine-tuning TTS diffusion models using reinforcement learning techniques. While existing methods like RWR and DDPO struggle with the temporal and acoustic demands of TTS, <span class="dlpo">DLPO</span> provides a tailored solution.
+          </p>
+          
+          <p>
+            By integrating the diffusion model's original training loss into the reward function, DLPO stabilizes training, prevents overfitting, and enables task-specific adaptations. This approach demonstrates the importance of leveraging task-specific regularization to address the complexities of sequential data generation.
+          </p>
+          
+          <p>
+            Our findings establish DLPO as a robust framework for advancing diffusion-based TTS synthesis and set a foundation for broader applications in resource-constrained and real-time scenarios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{chen2024dlpo,
+  author    = {Chen, Jingyi and Byun, Ju Seung and Elsner, Micha and Wang, Pichao and Perrault, Andrew},
+  title     = {Fine-Tuning Text-to-Speech Diffusion Models Using Reinforcement Learning with Human Feedback},
+  journal   = {arXiv preprint},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        This website is based on the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies template</a>.
+        We thank the authors for making their template available.
+      </p>
+      <p>
+        For questions about this work, please contact the authors at The Ohio State University.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
